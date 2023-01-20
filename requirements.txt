@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+fastapi-jwt-auth
+sqlalchemy
+psycopg2

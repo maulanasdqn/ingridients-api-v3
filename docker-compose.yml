@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  database:
+    container_name: fastapi-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: django-db
+    ports:
+      - "5433:5433"
