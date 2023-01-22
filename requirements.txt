@@ -1,5 +1,10 @@
 fastapi
-uvicorn[standard]
-fastapi-jwt-auth
-sqlalchemy
 psycopg2
+sqlalchemy
+python-dotenv
+fastapi-jwt-auth
+fastapi-pagination
+
+pydantic[email]
+passlib[bcrypt] 
+uvicorn[standard]

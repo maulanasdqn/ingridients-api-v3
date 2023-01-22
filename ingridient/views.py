@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
-from . import models, schema as schemas
+
+from . import schemas
+from . import models
 
 def get_ingridient(db: Session, ingridient_id: int):
     return db.query(models.Ingridient).filter(models.Ingridient.id == ingridient_id).first()
@@ -19,7 +21,7 @@ def create_ingridient(db: Session, data: schemas.IngridientCreate):
         weight=data.weight,
         qty=data.qty,
         price=data.price,
-        categories=data.categories
+        category_id=data.category_id
         )
     db.add(db_ingridient)
     db.commit()

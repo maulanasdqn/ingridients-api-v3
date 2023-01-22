@@ -4,7 +4,8 @@ from fastapi_jwt_auth import AuthJWT
 from user import urls as user_urls
 from ingridient import urls as ingridient_urls
 from category import urls as category_urls
-from user.schema import Settings
+from role import urls as role_urls
+from user.schemas import Settings
 from fastapi_jwt_auth.exceptions import AuthJWTException
 
 app = FastAPI()
@@ -21,6 +22,7 @@ def authjwt_exception_handler(request: Request, exc: AuthJWTException):
     )
 
 app.include_router(user_urls.app,tags=['users'])
+app.include_router(role_urls.app,tags=['roles'])
 app.include_router(ingridient_urls.app,tags=['ingridients'])
 app.include_router(category_urls.app,tags=['categories'])
 

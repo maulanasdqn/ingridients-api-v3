@@ -1,14 +1,15 @@
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, ColumnDefault
+from sqlalchemy import ARRAY, Boolean, Column, Integer, String, DateTime, ColumnDefault
 from sqlalchemy.orm import relationship
 from datetime import datetime
-
 from config.database import Base
-from ingridient import models
+from user.models import User
+from permission.models import Permission
 
-class Category(Base):
-    __tablename__ = "categories"
+class Role(Base):
+    __tablename__ = "roles"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
-    ingridients = relationship("Ingridient", back_populates="categories")
+    permission = relationship(Permission, back_populates="roles")
+    users = relationship(User, back_populates="roles")
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now())

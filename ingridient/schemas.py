@@ -1,7 +1,6 @@
 from datetime import date
-from typing import List
 from pydantic import BaseModel
-from category.schema import Category
+from category.schemas import Category
 
 class IngridientBase(BaseModel):
     name: str
@@ -14,7 +13,7 @@ class IngridientCreate(IngridientBase):
     qty: int
     weight: int
     price: int
-    categories: int
+    category_id: int
 
 class Ingridient(IngridientBase):
     id: int
@@ -22,7 +21,7 @@ class Ingridient(IngridientBase):
     qty: int
     weight: int
     price: int
-    categories: int
+    categories: Category
     created_at: date
     updated_at: date
 

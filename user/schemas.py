@@ -1,4 +1,3 @@
-from typing import Optional
 from pydantic import BaseModel
 from datetime import timedelta
 
@@ -15,19 +14,17 @@ class UserCreate(UserBase):
     email: str
     password: str
     fullname: str
-    role: Optional[int] = 1
 
 class UserLogin(UserBase):
     email: str
     password: str
-    role: Optional[int]
 
 
 class User(UserBase):
     id: int
     fullname: str
     email: str
-    role: int
+    roles: object
     is_active: bool
 
     class Config:

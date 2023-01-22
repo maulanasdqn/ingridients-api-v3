@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi_jwt_auth import AuthJWT
-from . import models as category_models, schema as schemas, views as crud
+
+from . import schemas
+from . import models as category_models, views as crud
 from config.database import SessionLocal, engine
 from sqlalchemy.orm import Session
 
@@ -15,9 +17,9 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/category/", response_model=schemas.Category)
+@app.post("/categories/", response_model=schemas.Category)
 def create_category(data: schemas.CategoryCreate, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
-    Authorize.jwt_required()
+    Authorize.fresh_jwt_required()
     current_user = Authorize.get_raw_jwt()
     db_category = crud.get_category_by_name(db, name=data.name)
 
@@ -30,16 +32,16 @@ def create_category(data: schemas.CategoryCreate, db: Session = Depends(get_db),
 
     return crud.create_category(db=db, data=data)
 
-@app.get("/category/", response_model=list[schemas.Category])
+@app.get("/categories/", response_model=list[schemas.Category])
 def read_categories(Authorize: AuthJWT = Depends(), skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    Authorize.jwt_required()
+    Authorize.fresh_jwt_required()
     categories = crud.get_categories(db, skip=skip, limit=limit)
     return categories
 
-@app.get("/category/{category_id}/", response_model=schemas.Category)
+@app.get("/categories/{category_id}/", response_model=schemas.Category)
 def read_detail_category(category_id: int, db: Session = Depends(get_db), Authorize: AuthJWT = Depends(),):
-    Authorize.jwt_required()
+    Authorize.fresh_jwt_required()
     db_category = crud.get_category(db, category_id=category_id)
     if db_category is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Category not found")
     return db_category

@@ -1,19 +1,20 @@
 from datetime import date
-from typing import Optional, Union
+from typing import List, Optional
 from pydantic import BaseModel
 
-class CategoryBase(BaseModel):
+class RoleBase(BaseModel):
     name: str
 
-class CategoryCreate(CategoryBase):
+class RoleCreate(RoleBase):
     name: str
    
-class Category(CategoryBase):
+class Role(RoleBase):
     id: Optional[int]
     name: Optional[str]
+    permission: object
+    users: object
     updated_at: Optional[date]
     created_at: Optional[date]
-   
 
     class Config:
         orm_mode = True
