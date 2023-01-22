@@ -29,7 +29,6 @@ def create_category(data: schemas.CategoryCreate, db: Session = Depends(get_db),
     if db_category:
         raise HTTPException(status_code=400, detail="Category already exist")
 
-
     return crud.create_category(db=db, data=data)
 
 @app.get("/categories/", response_model=list[schemas.Category])

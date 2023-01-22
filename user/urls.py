@@ -55,15 +55,11 @@ def refresh(Authorize: AuthJWT = Depends()):
     new_refresh_token = Authorize.create_refresh_token(subject=current_user["sub"], user_claims=data_claims)
     return {"access_token": new_access_token, "refresh_token": new_refresh_token}
 
-@app.get('/user/me/')
-def user(Authorize: AuthJWT = Depends()):
+@app.get('/users/me/', response_model=schemas.User)
+def user(Authorize: AuthJWT = Depends(), db: Session = Depends(get_db)):
     Authorize.fresh_jwt_required()
     current_user = Authorize.get_raw_jwt()
-    return {"user": {
-        "email": current_user['sub'],
-        "role": current_user['role']
-    }}
-
+    return crud.get_user_by_email(db=db, email=current_user["sub"])
 
 @app.post("/auth/register/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):

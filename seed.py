@@ -4,11 +4,21 @@ from role.models import Role
 from permission.models import Permission
 from user.models import User
 from helper.main import Hasher
+from permission.models import PermissionRoles
 import getopt, sys
 
 argumentList = sys.argv[1:]
-options = "rpu:"
-long_options = ["role", "permission", "user"]
+options = "rpus:"
+long_options = ["role", "permission", "user", "permission-roles"]
+
+def seed_permission_roles():
+    with Session(bind=engine) as session:
+        ReadIngridientPermission = PermissionRoles(role_id=1, permission_id=1)
+        ReadCategoryPermission = PermissionRoles(role_id=1, permission_id=2)
+        ReadUserPermission = PermissionRoles(role_id=1, permission_id=3)
+
+        session.add_all([ReadCategoryPermission, ReadIngridientPermission, ReadUserPermission])
+        session.commit()
 
 def seed_role():
     with Session(bind=engine) as session:
@@ -21,11 +31,11 @@ def seed_role():
 
 def seed_permission():
     with Session(bind=engine) as session:
-        ingridient = Permission(name="Ingridient")
-        category = Permission(name="Category")
-        user = Permission(name="User")
+        ReadIngridient = Permission(name="Read Ingridient")
+        ReadCategory = Permission(name="Read Category")
+        ReadUser = Permission(name="Read User")
 
-        session.add_all([ingridient, category, user])
+        session.add_all([ReadIngridient, ReadCategory, ReadUser])
         session.commit()
 
 def seed_user():
@@ -56,6 +66,11 @@ try:
             print ("Generate User...")
             seed_user()
             print("Success Generate User!")
+
+        elif currentArgument in ("-s", "--permission-roles"):
+            print ("Generate Permission Roles...")
+            seed_permission_roles()
+            print("Success Generate Permission Roles!")
              
 except getopt.error as err:
     print (str(err))
