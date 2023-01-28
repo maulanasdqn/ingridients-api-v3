@@ -1,0 +1,10 @@
+fastapi
+psycopg2
+sqlalchemy
+python-dotenv
+fastapi-jwt-auth
+fastapi-pagination
+
+pydantic[email]
+passlib[bcrypt] 
+uvicorn[standard]

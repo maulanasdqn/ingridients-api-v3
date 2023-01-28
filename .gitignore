@@ -1,0 +1,6 @@
+__pycache__
+*.env
+# Devenv
+.devenv*
+devenv.local.nix
+
