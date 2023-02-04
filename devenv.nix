@@ -1,11 +1,28 @@
 { pkgs, ... }:
 
-{
+let
+  myAppEnv = pkgs.poetry2nix.mkPoetryEnv {
+    projectDir = ./.;
 
-  packages = [ pkgs.git ];
+    overrides = pkgs.poetry2nix.defaultPoetryOverrides.extend
+     (self: super: {
+       fastapi-pagination = super.fastapi-pagination.overridePythonAttrs
+       (
+         old: {
+           buildInputs = (old.buildInputs or [ ]) ++ [ super.poetry ];
+         }
+       );
+     });
 
-  mach-nix.mkPython = {
-    requirements = builtins.readFile ./requirements.txt;
+     editablePackageSources = {
+      my-app = ./.;
+    };
   };
-  
+in
+
+{
+  packages = [
+    pkgs.poetry
+    myAppEnv
+  ];
 }

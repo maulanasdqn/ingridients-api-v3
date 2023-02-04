@@ -1,6 +1,5 @@
 from datetime import date
 from pydantic import BaseModel
-from category.schemas import Category
 
 class IngridientBase(BaseModel):
     name: str
@@ -21,7 +20,7 @@ class Ingridient(IngridientBase):
     qty: int
     weight: int
     price: int
-    categories: Category
+    categories: object
     created_at: date
     updated_at: date
 

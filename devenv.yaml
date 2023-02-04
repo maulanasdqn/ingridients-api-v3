@@ -1,5 +1,9 @@
 inputs:
   nixpkgs:
     url: github:NixOS/nixpkgs/nixpkgs-unstable
-  mach-nix:
-    url: github:DavHau/mach-nix/
+
+  pre-commit-hooks:
+    url: github:cachix/pre-commit-hooks.nix
+
+  poetry2nix:
+    url: github:nix-community/poetry2nix
