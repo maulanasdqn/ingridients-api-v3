@@ -3,4 +3,4 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 class PermissionBase(BaseModel):
-    id: Optional(int)
+    pass

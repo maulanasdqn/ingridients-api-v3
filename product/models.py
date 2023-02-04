@@ -1,8 +1,7 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, ColumnDefault
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from datetime import datetime
 
 from config.database import Base
-from ingridient import models
 
 class Product(Base):
     __tablename__ = "products"

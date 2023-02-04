@@ -2,7 +2,6 @@ from datetime import date, datetime
 from typing import List, Optional
 from pydantic import BaseModel
 
-
 class UserBase(BaseModel):
     id: int
     fullname: str
@@ -33,15 +32,15 @@ class RoleBase(BaseModel):
     updated_at: Optional[date]
     created_at: Optional[date]
 
-    def dict(self, **kwargs):
-        data = super(RoleBase, self).dict(**kwargs)
-
-        for a in data['permissions']:
-            a['id'] = a['permission']['id']
-            a['name'] = a['permission']['name']
-            del a['permission']
-
-        return data
+    #def dict(self, **kwargs):
+    #    data = super(RoleBase, self).dict(**kwargs)
+    #
+    #    for a in data['permissions']:
+    #        a['id'] = a['permission']['id']
+    #        a['name'] = a['permission']['name']
+    #        del a['permission']
+    #
+    #    return data
 
 class RoleUser(BaseModel):
     id: int
