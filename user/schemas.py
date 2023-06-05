@@ -41,16 +41,7 @@ class RoleBase(BaseModel):
     name: str
     permissions: List[PermissionRole]
 
-    #def dict(self, **kwargs):
-    #    data = super(RoleBase, self).dict(**kwargs)
-    #
-    #    for a in data['permissions']:
-    #        a['id'] = a['permission']['id']
-    #        a['name'] = a['permission']['name']
-    #        del a['permission']
-    #
-    #    return data
-
+    
     class Config:
         orm_mode = True
 

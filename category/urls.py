@@ -5,6 +5,7 @@ from . import models as category_models, views as crud
 from config.database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from fastapi_pagination import Page, paginate
+from helper.main import JWTBearer
 
 category_models.Base.metadata.create_all(bind=engine)
 
@@ -17,7 +18,7 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/categories/", response_model=schemas.Category)
+@app.post("/categories/", response_model=schemas.Category, dependencies=[Depends(JWTBearer())])
 def create_category(data: schemas.CategoryCreate, db: Session = Depends(get_db)):
     db_category = crud.get_category_by_name(db, name=data.name)
 
@@ -26,12 +27,12 @@ def create_category(data: schemas.CategoryCreate, db: Session = Depends(get_db))
 
     return crud.create_category(db=db, data=data)
 
-@app.get("/categories/", response_model=Page[schemas.Category])
+@app.get("/categories/", response_model=Page[schemas.Category], dependencies=[Depends(JWTBearer())])
 def read_categories( skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     categories = crud.get_categories(db, skip=skip, limit=limit)
     return paginate(categories)
 
-@app.get("/categories/{category_id}/", response_model=schemas.Category)
+@app.get("/categories/{category_id}/", response_model=schemas.Category, dependencies=[Depends(JWTBearer())])
 def read_detail_category(category_id: int, db: Session = Depends(get_db)):
     db_category = crud.get_category(db, category_id=category_id)
     if db_category is None:

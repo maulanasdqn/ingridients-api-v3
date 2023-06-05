@@ -7,6 +7,6 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: django-db
+      POSTGRES_DB: ingridient-db
     ports:
       - "5433:5433"

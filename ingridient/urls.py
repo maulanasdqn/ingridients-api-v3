@@ -5,6 +5,7 @@ from . import models as ingridient_models, views as crud
 from config.database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from fastapi_pagination import Page, paginate
+from helper.main import JWTBearer
 
 ingridient_models.Base.metadata.create_all(bind=engine)
 
@@ -17,7 +18,7 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/ingridients/", response_model=schemas.Ingridient)
+@app.post("/ingridients/", response_model=schemas.Ingridient, dependencies=[Depends(JWTBearer())])
 def create_ingridient(data: schemas.IngridientCreate, db: Session = Depends(get_db)):
     db_ingridient = crud.get_ingridient_by_name(db, name=data.name)
     if db_ingridient:
@@ -25,13 +26,13 @@ def create_ingridient(data: schemas.IngridientCreate, db: Session = Depends(get_
     return crud.create_ingridient(db=db, data=data)
 
 
-@app.get("/ingridients/", response_model=Page[schemas.Ingridient])
+@app.get("/ingridients/", response_model=Page[schemas.Ingridient], dependencies=[Depends(JWTBearer())])
 def read_ingridients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     ingridients = crud.get_ingridients(db, skip=skip, limit=limit)
     return paginate(ingridients)
 
 
-@app.get("/ingridients/{ingridient_id}/", response_model=schemas.Ingridient)
+@app.get("/ingridients/{ingridient_id}/", response_model=schemas.Ingridient, dependencies=[Depends(JWTBearer())])
 def read_detail_ingridient(ingridient_id: int, db: Session = Depends(get_db) ):
     db_ingridient = crud.get_ingridient(db, ingridient_id=ingridient_id)
     if db_ingridient is None:

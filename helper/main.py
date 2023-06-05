@@ -1,6 +1,5 @@
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
-
 from fastapi import Request, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from user.schemas import ALGORITHM, JWT_SECRET_KEY
@@ -10,6 +9,7 @@ import time
 def decodeJWT(token: str) -> dict:
     try:
         decoded_token = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+        print(decoded_token)
         return decoded_token if decoded_token["exp"] >= time.time() else None
     except:
         return {}
@@ -39,6 +39,7 @@ class JWTBearer(HTTPBearer):
         if payload:
             isTokenValid = True
         return isTokenValid
+
 
 reuseable_oauth = OAuth2PasswordBearer(
     tokenUrl="/auth/login/",
